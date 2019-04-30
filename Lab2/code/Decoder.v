@@ -1,4 +1,4 @@
-//Subject:     CO project 2 - Decoder
+i/Subject:     CO project 2 - Decoder
 //--------------------------------------------------------------------------------
 //Version:     1
 //--------------------------------------------------------------------------------
@@ -41,7 +41,7 @@ reg            Branch_o;
 
 always@(*)
 begin
-  if(instr_op_i==6'b000000)
+  if(instr_op_i==6'b000000) //R
   begin
     RegDst_o=1'b1;
     ALUSrc_o=1'b0;
@@ -50,7 +50,7 @@ begin
     ALU_op_o=3'b010;
   end
   
-  else if(instr_op_i==6'b001000)
+  else if(instr_op_i==6'b001000) //addi
   begin
     RegDst_o=1'b0;
     ALUSrc_o=1'b1;
@@ -59,7 +59,7 @@ begin
     ALU_op_o=3'b000;
   end
   
-  else if(instr_op_i == 6'b000100) 
+  else if(instr_op_i == 6'b000100) //beq
   begin
     RegDst_o = 1'b0;
     ALUSrc_o = 1'b0;
@@ -68,7 +68,16 @@ begin
     ALU_op_o = 3'b001;
   end
   
-  /*else if(instr_op_i == 6'b001111) 
+  else if(instr_op_i==6'b001011) //sltiu
+  begin
+    RegDst_o=1'b0;
+    ALUSrc_o=1'b1;
+    RegWrite_o=1'b1;
+    Branch_o=1'b0;
+    ALU_op_o=3'b111;
+  end
+  
+  else if(instr_op_i == 6'b001111) //lui
   begin
     RegDst_o = 1'b0;
     ALUSrc_o = 1'b1;
@@ -93,7 +102,7 @@ begin
     RegWrite_o = 1'b0;
     Branch_o = 1'b1;
     ALU_op_o = 3'b011;
-  end*/
+  end
   
   else
   begin
