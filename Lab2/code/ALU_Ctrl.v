@@ -31,7 +31,7 @@ reg        [4-1:0] ALUCtrl_o;
 
 always@( * )
 begin
-  if(ALUOp_i == 3'b100)      ALUCtrl_o = 4'b0010; //addi
+  if(ALUOp_i == 3'b000)      ALUCtrl_o = 4'b0010; //addi
   else if(ALUOp_i == 3'b001) ALUCtrl_o = 4'b0110; //beq
   else if(ALUOp_i == 3'b101) ALUCtrl_o = 4'b1011; //lui
   else if(ALUOp_i == 3'b110) ALUCtrl_o = 4'b0001; //ori
