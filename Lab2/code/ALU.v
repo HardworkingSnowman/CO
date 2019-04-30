@@ -41,7 +41,9 @@ begin
 		4'b0001 : result_o = src1_i | src2_i;
 		//addu, addi
 		4'b0010 : result_o = src1_i + src2_i;
-		//beq, subu, bne
+		//bne
+		4'b0101 : result_o = src1_i - src2_i;
+		//beq, subu
 		4'b0110 : result_o = src1_i - src2_i;
 		//sltu
 		4'b0111 : result_o = (src1_i < src2_i) ? 1 : 0;
@@ -53,6 +55,9 @@ begin
 		4'b1011 : result_o = src2_i << 16;
 		end
 	endcase
+
+	if(ctrl_i == 4'b0101)zero_o = !(result_o == 0);
+	else zero_o = (result_o == 0);
 end
 
 endmodule
