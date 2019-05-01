@@ -104,14 +104,15 @@ begin
     ALU_op_o = 3'b011;
   end
   
-  else
+ /* else
   begin
     RegDst_o = 1'b1;
     ALUSrc_o = 1'b1;
     RegWrite_o = 1'b1;
     Branch_o = 1'b1;
-    ALU_op_o = 3'b111;
-  end
+    ALU_op_o = 3'b000;
+  end*/
+end
 
 endmodule
 
