@@ -36,7 +36,7 @@ begin
   else if(ALUOp_i == 3'b101) ALUCtrl_o = 4'b1011; //lui
   else if(ALUOp_i == 3'b110) ALUCtrl_o = 4'b0001; //ori
   else if(ALUOp_i == 3'b011) ALUCtrl_o = 4'b0110; //bne
-  else if(ALUOp_i == 3'b111) ALUCtrl_o = 4'01111; //sltiu
+  else if(ALUOp_i == 3'b111) ALUCtrl_o = 4'b0111; //sltiu
   
   else if({ALUOp_i, funct_i} == 9'b010100001) ALUCtrl_o = 4'b0010; //addu
   else if({ALUOp_i, funct_i} == 9'b010100011) ALUCtrl_o = 4'b0110; //subu

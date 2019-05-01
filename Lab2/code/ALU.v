@@ -45,12 +45,12 @@ begin
 		4'b0101 : result_o = src1_i - src2_i;
 		//beq, subu
 		4'b0110 : result_o = src1_i - src2_i;
-		//sltu
+		//sltiu
 		4'b0111 : result_o = (src1_i < src2_i) ? 1 : 0;
 		//slt
 		4'b1000 : result_o = ($signed(src1_i) < $signed(src2_i)) ? 1 : 0;
 		//sra, srav
-		4'b1001 : result_o = src1_i >> src2_i;
+		4'b1001 : result_o = src2_i >> src1_i;
 		//lui
 		4'b1011 : result_o = src2_i << 16;
 		end

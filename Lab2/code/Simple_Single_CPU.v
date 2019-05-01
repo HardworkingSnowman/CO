@@ -34,7 +34,6 @@ wire [4-1:0] alu_ctrl;
 wire [5-1:0] reg_dst;
 wire [32-1:0] reg_rs, reg_rt;
 
-assign alu_src1 = reg_rs;
 
 //Greate componentes
 ProgramCounter PC(
@@ -101,6 +100,13 @@ MUX_2to1 #(.size(32)) Mux_ALUSrc(
         .select_i(ALUSrc),
         .data_o(alu_src2)
         );	
+
+MUX_2to1 #(.size(32)) Mux_if_sra(
+        .data0_i({27'b0, pc_instr[10:6]}),
+        .data1_i(reg_rs),
+        .select_i(pc_instr[0:5] == 3),
+        .data_o(alu_src1)
+        );
 		
 ALU ALU(
         .src1_i(alu_src1),
