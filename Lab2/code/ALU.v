@@ -30,6 +30,7 @@ reg    [32-1:0]  result_o;
 wire             zero_o;
 
 //Parameter
+assign zero_o = (result_o == 0) ^ (ctrl_i == 4'b0101);
 
 //Main function
 always@(*)
@@ -50,14 +51,10 @@ begin
 		//slt
 		4'b1000 : result_o = ($signed(src1_i) < $signed(src2_i)) ? 1 : 0;
 		//sra, srav
-		4'b1001 : result_o = src2_i >> src1_i;
+		4'b1001 : result_o = $signed(src2_i) >>> src1_i;
 		//lui
 		4'b1011 : result_o = src2_i << 16;
-		end
 	endcase
-
-	if(ctrl_i == 4'b0101)zero_o = !(result_o == 0);
-	else zero_o = (result_o == 0);
 end
 
 endmodule

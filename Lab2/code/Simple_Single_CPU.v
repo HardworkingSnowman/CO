@@ -74,7 +74,7 @@ Reg_File RF(
         );
 	
 Decoder Decoder(
-        .instr_op_i(pc_instr), 
+        .instr_op_i(pc_instr[31:26]), 
 	    .RegWrite_o(RegWrite), 
 	    .ALU_op_o(ALUOp),   
 	    .ALUSrc_o(ALUSrc),   
@@ -91,6 +91,8 @@ ALU_Ctrl AC(
 Sign_Extend SE(
         .data_i(pc_instr[15:0]),
         .op_i(pc_instr[31:26]),
+        .ALUOp_i(ALUOp),
+        .funct_i(pc_instr[5:0]),
         .data_o(pc_se)
         );
 
@@ -102,9 +104,9 @@ MUX_2to1 #(.size(32)) Mux_ALUSrc(
         );	
 
 MUX_2to1 #(.size(32)) Mux_if_sra(
-        .data0_i({27'b0, pc_instr[10:6]}),
-        .data1_i(reg_rs),
-        .select_i(pc_instr[0:5] == 3),
+        .data0_i(reg_rs),
+        .data1_i({27'b0, pc_instr[10:6]}),
+        .select_i(pc_instr[5:0] == 3),
         .data_o(alu_src1)
         );
 		
