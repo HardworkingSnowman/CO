@@ -28,6 +28,7 @@ output  [size-1:0] data_o;
 reg     [size-1:0] data_o;
 
 //Main function
+assign data_o = select_i ? data1_i : data0_i;
 
 endmodule      
           
