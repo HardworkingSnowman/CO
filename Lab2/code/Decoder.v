@@ -111,7 +111,6 @@ begin
     RegWrite_o = 1'b1;
     Branch_o = 1'b1;
     ALU_op_o = 3'b111;
-    ori_o = 1'b1;
   end
 
 endmodule
