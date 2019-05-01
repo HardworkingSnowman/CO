@@ -66,7 +66,7 @@ Reg_File RF(
         .clk_i(clk_i),      
 	    .rst_i(rst_i) ,     
         .RSaddr_i(pc_instr[25:21]) ,  
-        .RTaddr_i(pc_instr[16:20]) ,  
+        .RTaddr_i(pc_instr[20:16]) ,  
         .RDaddr_i(reg_dst) ,  
         .RDdata_i(alu_result)  , 
         .RegWrite_i (RegWrite),
@@ -91,6 +91,7 @@ ALU_Ctrl AC(
 	
 Sign_Extend SE(
         .data_i(pc_instr[15:0]),
+        .op_i(pc_instr[31:26]),
         .data_o(pc_se)
         );
 
