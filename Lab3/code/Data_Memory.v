@@ -94,7 +94,7 @@ initial begin
 end 
 
 always@(posedge clk_i) begin
-    if(MemWrite_i) begin
+	if(MemWrite_i) begin
 		Mem[addr_i+3] <= data_i[31:24];
 		Mem[addr_i+2] <= data_i[23:16];
 		Mem[addr_i+1] <= data_i[15:8];
