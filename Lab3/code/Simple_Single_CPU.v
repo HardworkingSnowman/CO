@@ -62,7 +62,7 @@ Adder Adder1(
 	    );
 	
 Instr_Memory IM(
-        .pc_addr_i(pc_output),  
+        .addr_i(pc_output),  
 	    .instr_o(pc_instr)    
 	    );
 
@@ -123,7 +123,7 @@ MUX_2to1 #(.size(32)) Mux_ALUSrc(
 MUX_2to1 #(.size(32)) Mux_if_sra(
         .data0_i(reg_rs),
         .data1_i({27'b0, pc_instr[10:6]}),
-        .select_i(pc_instr[5:0] == 3),
+        .select_i({pc_instr[31:26], pc_instr[5:0]} == 12'b000000000011),
         .data_o(alu_src1)
         );
 		
@@ -153,21 +153,25 @@ MUX_2to1 #(.size(32)) Mux_PC_Source(
         .select_i(Branch & branch_res),
         .data_o(pc_address_without_jump)
         );
-
-// about jump	
+//
+// about jump
+// j   : 後 26 bit 上移兩位，前面接 pc+4 的前四位
+// jal : Reg[31] = PC +4 ; PC = {PC[31:28], address[25:0] << 2};
+// jr  : PC = Reg[rs];
+//
 Shift_Left_Two_32 get_jump_lower(       // to get the lower 28 bits from 25 bits instrction
         .data_i({6'b0, pc_instr[25:0]}),
         .data_o(lower_jump)
         );
 
-MUX_2to1 #(.size(32)) MUX_get_jump_whole(       // 要用 jal/j 還是 jr
+MUX_2to1 #(.size(32)) get_jump_whole(       // 要用 jal/j 還是 jr
         .data0_i(reg_rs),
         .data1_i(j_jal),
         .select_i(jump),
         .data_o(jump_whole)
         );
 
-MUX_2to1 #(.size(32)) MUX_PC_Jump(      // 要用 jal 或 j 的 還是 branch 或原本的
+MUX_2to1 #(.size(32)) PC_Jump(      // 要用 jal 或 j 的 還是 branch 或原本的
         .data0_i(pc_address_without_jump),
         .data1_i(jump_whole),
         .select_i(jump | ({pc_instr[31:26], pc_instr[5:0]} == 12'b000000001000)),
@@ -187,12 +191,12 @@ MUX_2to1 #(.size(32)) get_RDdata_without_lw(    // 確認 Reg_File 的 RDdata �
         .select_i(RegWrite & jump),
         .data_o(RDdata_without_lw)
         );
-
+//
 // lw
 // R[rt] = Mem[R[rs] + SignExt(imm16)]
 // sw
 // Mem[R[rs] + SignExt(imm16)] = R[rt]
-
+//
 MUX_2to1 #(.size(32)) get_final_RDdata(
         .data0_i(alu_result),
         .data1_i(mem_res_lw),
@@ -208,8 +212,13 @@ Data_Memory Data_Memory(        // sw, lw
         .MemWrite_i(MemWrite),
         .data_o(mem_res_lw)
         );
-
+//
 // branch
+// be         : rs == rt
+// bne, bnez  : rs != rt
+// ble        : rs <= rt
+// bltz       : rs < rt
+//
 Whether_Branch get_branch_res(
         .src1_i(alu_src1),
         .src2_i(alu_src2),

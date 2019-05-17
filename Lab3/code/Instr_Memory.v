@@ -1,49 +1,45 @@
-//Subject:     CO project 2 - Instruction Memory
-//--------------------------------------------------------------------------------
-//Version:     1
-//--------------------------------------------------------------------------------
-//Writer:      
-//----------------------------------------------
-//Date:        
-//----------------------------------------------
-//Description: 
-//--------------------------------------------------------------------------------
-
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date:    18:45:21 02/25/2016
+// Design Name: 
+// Module Name:    Data_Memory 
+// Project Name: 
+// Target Devices: 
+// Tool versions: 
+// Description: 
+//
+// Dependencies: 
+//
+// Revision: 
+// Revision 0.01 - File Created
+// Additional Comments: 
+//
+//////////////////////////////////////////////////////////////////////////////////
 module Instr_Memory(
-    pc_addr_i,
+    addr_i,
 	instr_o
-	);
+);
  
-//I/O ports
-input  [32-1:0]  pc_addr_i;
-output [32-1:0]	 instr_o;
+// Interface
+input  [31:0]	addr_i;
+output [31:0]	instr_o;
 
-//Internal Signals
-reg    [32-1:0]	 instr_o;
+// Internal Signals
 integer          i;
 
-//32 words Memory
-reg    [32-1:0]  Instr_Mem [0:32-1];
+// Instruction File
+reg		[31:0]		instruction_file	[0:31];
 
-//Parameter
-    
-//Main function
-always @(pc_addr_i) begin
-	instr_o = Instr_Mem[pc_addr_i/4];
-end
-    
 //Initial Memory Contents
 initial begin
     for ( i=0; i<32; i=i+1 )
-	    Instr_Mem[i] = 32'b0;
-    $readmemb("CO_P2_test_data3.txt", Instr_Mem);  //Read instruction from "CO_P2_test_data1.txt"   
-		
+	    instruction_file[i] = 32'b0;
+    $readmemb("data1-1.txt", instruction_file);  //Read instruction from "CO_P3_test_data.txt"   
 end
+
+assign	instr_o = instruction_file[addr_i/4];
+
 endmodule
-
-
-
-
-
-                    
-                    

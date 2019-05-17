@@ -37,7 +37,7 @@ module TestBench;
     #(`CYCLE_TIME)
     
     Start = 1;
-    #(`CYCLE_TIME*560)	
+    #(`CYCLE_TIME*100)	
     
   $finish;
   end

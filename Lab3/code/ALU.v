@@ -48,8 +48,8 @@ begin
 		4'b1000 : result_o = ($signed(src1_i) < $signed(src2_i)) ? 1 : 0;
 		//sra, srav
 		4'b1001 : result_o = $signed(src2_i) >>> src1_i;
-        //mul
-        4'b1010 : result_o = $signed(src1_i) * $signed(src2_i);
+		//mul
+		4'b1010 : result_o = $signed(src1_i) * $signed(src2_i);
 		//lui
 		4'b1011 : result_o = src2_i << 16;
 	endcase
