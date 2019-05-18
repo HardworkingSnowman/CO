@@ -79,7 +79,7 @@ begin
     MemWrite_o=1'b0;
     MemtoReg_o=1'b0;
   end
-  else if(instr_op_i[5:2] == 4'b0000) // j, jal
+  else if(instr_op_i[5:1] == 5'b00001) // j, jal
   begin
     RegDst_o=1'b0;
     ALUSrc_o=1'b0;
@@ -89,10 +89,10 @@ begin
     MemWrite_o=1'b0;
     MemtoReg_o=1'b0;
     ALU_op_o=3'b000;
-    if(instr_op_i == 6'b000010) RegWrite_o=1'b0;
-    else if(instr_op_i == 6'b000011) RegWrite_o=1'b1;
+    if(instr_op_i == 6'b000010) RegWrite_o = 1'b0;  // j
+    else if(instr_op_i == 6'b000011) RegWrite_o = 1'b1; //jal
   end
-  else if(instr_op_i[5:2] == 3'b000) // branch
+  else if(instr_op_i[5:3] == 3'b000) // branch
   begin
     RegDst_o = 1'b0;
     ALUSrc_o = 1'b0;
@@ -102,10 +102,7 @@ begin
     MemRead_o=1'b0;
     MemWrite_o=1'b0;
     MemtoReg_o=1'b0;
-    if(instr_op_i[2:0] == 3'b100) ALU_op_o = 3'b001; // beq
-    else if(instr_op_i[2:0] == 3'b101) ALU_op_o = 3'b011; // bne, bnez
-    else if(instr_op_i[2:0] == 3'b110) ALU_op_o = 3'b111; // ble
-    else if(instr_op_i[2:0] == 3'b001) ALU_op_o = 3'b111; // bltz
+    ALU_op_o = 3'b000;
   end
   else if(instr_op_i[5:3] == 3'b001) // I type
   begin

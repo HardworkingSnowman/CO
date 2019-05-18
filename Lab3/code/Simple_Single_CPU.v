@@ -167,28 +167,28 @@ Shift_Left_Two_32 get_jump_lower(       // to get the lower 28 bits from 25 bits
 MUX_2to1 #(.size(32)) get_jump_whole(       // 要用 jal/j 還是 jr
         .data0_i(reg_rs),
         .data1_i(j_jal),
-        .select_i(jump),
+        .select_i(Jump),
         .data_o(jump_whole)
         );
 
 MUX_2to1 #(.size(32)) PC_Jump(      // 要用 jal 或 j 的 還是 branch 或原本的
         .data0_i(pc_address_without_jump),
         .data1_i(jump_whole),
-        .select_i(jump | ({pc_instr[31:26], pc_instr[5:0]} == 12'b000000001000)),
+        .select_i(Jump | ({pc_instr[31:26], pc_instr[5:0]} == 12'b000000001000)),
         .data_o(pc_input)
         );
 
 MUX_2to1 #(.size(5)) get_final_RDaddr(         // 確認 Reg_File 的 RDaddr 是否使用 jal
         .data0_i(reg_dst),
         .data1_i(5'b11111),
-        .select_i(RegWrite & jump),
+        .select_i(RegWrite & Jump),
         .data_o(final_RDaddr)
         );
 
 MUX_2to1 #(.size(32)) get_RDdata_without_lw(    // 確認 Reg_File 的 RDdata 是否使用 jal
         .data0_i(alu_result),
         .data1_i(pc_4),
-        .select_i(RegWrite & jump),
+        .select_i(RegWrite & Jump),
         .data_o(RDdata_without_lw)
         );
 //
@@ -198,7 +198,7 @@ MUX_2to1 #(.size(32)) get_RDdata_without_lw(    // 確認 Reg_File 的 RDdata �
 // Mem[R[rs] + SignExt(imm16)] = R[rt]
 //
 MUX_2to1 #(.size(32)) get_final_RDdata(
-        .data0_i(alu_result),
+        .data0_i(RDdata_without_lw),
         .data1_i(mem_res_lw),
         .select_i(MemtoReg),
         .data_o(final_RDdata)
@@ -214,7 +214,7 @@ Data_Memory Data_Memory(        // sw, lw
         );
 //
 // branch
-// be         : rs == rt
+// beq        : rs == rt
 // bne, bnez  : rs != rt
 // ble        : rs <= rt
 // bltz       : rs < rt

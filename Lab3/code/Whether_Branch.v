@@ -40,12 +40,12 @@ begin
     end
     // bltz
     6'b000001: begin
-      if(src1_i < 0) branch_res_o = 1;
+      if($signed(src1_i) < 0) branch_res_o = 1;
       else branch_res_o = 0;
     end
     // ble
     6'b000110: begin
-      if(src1_i <= src2_i) branch_res_o = 1;
+      if($signed(src1_i) <= $signed(src2_i)) branch_res_o = 1;
       else branch_res_o = 0;
     end
   endcase
