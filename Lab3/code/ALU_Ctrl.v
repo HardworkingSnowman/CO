@@ -46,9 +46,7 @@ begin
   else if({ALUOp_i, funct_i} == 9'b010000011) ALUCtrl_o = 4'b1001; //sra
   else if({ALUOp_i, funct_i} == 9'b010000111) ALUCtrl_o = 4'b1001; //srav
   else if({ALUOp_i, funct_i} == 9'b010011000) ALUCtrl_o = 4'b1010; // mul
-  else if({ALUOp_i, funct_i} == 9'b010001000) ALUCtrl_o = 4'b0101; // jr
   else ALUCtrl_o = 4'b1111;
-  // ALUOp_i == 3'b010     // NOP
 end
 endmodule     
 

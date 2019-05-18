@@ -71,13 +71,20 @@ begin
   begin
     RegDst_o=1'b1;
     ALUSrc_o=1'b0;
-    RegWrite_o=1'b1;
     Branch_o=1'b0;
     ALU_op_o=3'b010;
-    Jump_o=1'b0;
     MemRead_o=1'b0;
     MemWrite_o=1'b0;
     MemtoReg_o=1'b0;
+    if(func_code_i == 6'b001000) 
+    begin
+      RegWrite_o = 1'b0;
+      Jump_o=1'b1;
+    end
+    else begin
+      RegWrite_o=1'b1;
+      Jump_o=1'b0;
+    end
   end
   else if(instr_op_i[5:1] == 5'b00001) // j, jal
   begin
@@ -116,7 +123,7 @@ begin
     MemtoReg_o=1'b0;
     if(instr_op_i[2:0] == 3'b000) ALU_op_o = 3'b000; // addi
     else if(instr_op_i[2:0] == 3'b011) ALU_op_o = 3'b111; // sltiu
-    else if(instr_op_i[2:0] == 3'b111) ALU_op_o = 3'b101; // lui
+    // else if(instr_op_i[2:0] == 3'b111) ALU_op_o = 3'b101; // lui
     else if(instr_op_i[2:0] == 3'b101) ALU_op_o = 3'b110; // ori
     else if(instr_op_i[2:0] == 3'b111) ALU_op_o = 3'b000; // li
   end
