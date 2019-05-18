@@ -165,16 +165,16 @@ Shift_Left_Two_32 get_jump_lower(       // to get the lower 28 bits from 25 bits
         );
 
 MUX_2to1 #(.size(32)) get_jump_whole(       // 要用 jal/j 還是 jr
-        .data0_i(reg_rs),
-        .data1_i(j_jal),
-        .select_i(Jump),
+        .data0_i(j_jal),
+        .data1_i(reg_rs),
+        .select_i({pc_instr[31:26], pc_instr[5:0]} == 12'b000000001000),
         .data_o(jump_whole)
         );
 
-MUX_2to1 #(.size(32)) PC_Jump(      // 要用 jal 或 j 的 還是 branch 或原本的
+MUX_2to1 #(.size(32)) PC_Jump(      // 要用 jal 或 j 或 jr 的 還是 branch 或原本的
         .data0_i(pc_address_without_jump),
         .data1_i(jump_whole),
-        .select_i(Jump | ({pc_instr[31:26], pc_instr[5:0]} == 12'b000000001000)),
+        .select_i(Jump),
         .data_o(pc_input)
         );
 
