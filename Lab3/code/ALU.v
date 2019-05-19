@@ -42,6 +42,8 @@ begin
 		4'b0001 : result_o = src1_i | src2_i;
 		//addu, addi
 		4'b0010 : result_o = src1_i + src2_i;
+		//subu
+		4'b0110 : result_o = src1_i - src2_i;
 		//sltiu
 		4'b0111 : result_o = (src1_i < src2_i) ? 1 : 0;
 		//slt
