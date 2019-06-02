@@ -72,7 +72,8 @@ int main()
 	// Let us simulate 4KB cache with 16B blocks
 	for(int i=0; i<4; i++){
 		for(int j=0; j<6; j++){
-			cout<<"\033[1;33m"<<pow(2, i)<<"-way "<<pow(2, j)<<"KB cache with "<<64<<" B blocks"<<"\n\033[0m";
+			cout<<"\033[1;33m"<<pow(2, i)<<"-way "<<pow(2, j)<<"KB cache with "<<64<<" B blocks"<<"\n";
+			cout<<"\033[1;35mneed "<<pow(2, i) * 32 + 1<<"bits\n\033[0m";
 			simulate(pow(2, i), pow(2, j) * K, 64);
 		}
 	}
