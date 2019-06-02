@@ -1,13 +1,14 @@
 #include <iostream>
 #include <stdio.h>
 #include <math.h>
+#include <algorithm>
 
 using namespace std;
 
 struct cache_content
 {
 	bool v;
-	unsigned int tag;
+	int *tag;
     // unsigned int	data[16];
 };
 
@@ -20,10 +21,10 @@ double log2(double n)
 }
 
 
-void simulate(int cache_size, int block_size)
+void simulate(int way, int cache_size, int block_size)
 {
-	unsigned int tag, index, x;
-
+	int tag, index, x;
+	double miss=0, count=0;
 	int offset_bit = (int)log2(block_size);
 	int index_bit = (int)log2(cache_size / block_size);
 	int line = cache_size >> (offset_bit);
@@ -32,24 +33,35 @@ void simulate(int cache_size, int block_size)
 	
     cout << "cache line: " << line << endl;
 
-	for(int j = 0; j < line; j++)
+	for(int j = 0; j < line; j++){
 		cache[j].v = false;
+		cache[j].tag = new int[way];
+		for(int k=0; k<way; k++)cache[j].tag[k] = -1;
+	}
 	
-    FILE *fp = fopen("ICACHE.txt", "r");  // read file
+    FILE *fp = fopen("LU.txt", "r");  // read file
 	
-	while(fscanf(fp, "%x", &x) != EOF)
-    {
-		cout << hex << x << " ";
+	while(fscanf(fp, "%x", &x) != EOF){
+		//cout << hex << x << " ";
 		index = (x >> offset_bit) & (line - 1);
 		tag = x >> (index_bit + offset_bit);
-		if(cache[index].v && cache[index].tag == tag)
-			cache[index].v = true;    // hit
-		else
-        {
-			cache[index].v = true;  // miss
-			cache[index].tag = tag;
+		count++;
+		cache[index].v = true;
+		bool check = false;
+		for(int i=0; i<way; i++){
+			if(tag == cache[index].tag[i]){
+				check = true;
+				for(int j=i; j>0; j--)swap(cache[index].tag[j], cache[index].tag[j-1]);
+				break;
+			}
+		}
+		if(!check){
+			miss++;
+			cache[index].tag[way-1] = tag;
+			for(int i=way-1; i>0; i--)swap(cache[index].tag[i], cache[index].tag[i-1]);
 		}
 	}
+	cout<<"miss rate: "<<miss/count<<endl<<endl;
 	fclose(fp);
 
 	delete [] cache;
@@ -58,5 +70,10 @@ void simulate(int cache_size, int block_size)
 int main()
 {
 	// Let us simulate 4KB cache with 16B blocks
-	simulate(4 * K, 16);
+	for(int i=0; i<4; i++){
+		for(int j=0; j<6; j++){
+			cout<<"\033[1;33m"<<pow(2, i)<<"-way "<<pow(2, j)<<"KB cache with "<<64<<" B blocks"<<"\n\033[0m";
+			simulate(pow(2, i), pow(2, j) * K, 64);
+		}
+	}
 }

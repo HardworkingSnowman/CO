@@ -52,7 +52,7 @@ void simulate(int cache_size, int block_size)
 			miss++;
 		}
 	}
-	cout<<"miss rate : "<<miss/count<<"\n\n";
+	cout<<"miss rate : "<<miss/count<<endl<<endl;
 	fclose(fp);
 
 	delete [] cache;
