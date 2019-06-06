@@ -35,7 +35,7 @@ void simulate(int cache_size, int block_size)
 	for(int j = 0; j < line; j++)
 		cache[j].v = false;
 	
-    FILE *fp = fopen("DCACHE.txt", "r");  // read file
+    FILE *fp = fopen("ICACHE.txt", "r");  // read file
 	
 	while(fscanf(fp, "%x", &x) != EOF)
     {
