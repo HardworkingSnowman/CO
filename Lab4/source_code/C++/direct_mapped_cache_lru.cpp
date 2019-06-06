@@ -30,7 +30,7 @@ void simulate(int way, int cache_size, int block_size)
 	int line = cache_size >> (offset_bit);
 
 	int tagbit = 32 - (offset_bit + index_bit);
-	cout<<"\033[1;35mneed "<<way * tagbit + 1<<"bits\n\033[0m";
+	cout<<"\033[1;35mneed "<<line * (way * tagbit + 1)<<"bits\n\033[0m";
 
 	cache_content *cache = new cache_content[line];
 	
