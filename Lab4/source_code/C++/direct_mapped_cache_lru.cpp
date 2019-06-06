@@ -29,6 +29,9 @@ void simulate(int way, int cache_size, int block_size)
 	int index_bit = (int)log2(cache_size / block_size);
 	int line = cache_size >> (offset_bit);
 
+	int tagbit = 32 - (offset_bit + index_bit);
+	cout<<"\033[1;35mneed "<<way * tagbit + 1<<"bits\n\033[0m";
+
 	cache_content *cache = new cache_content[line];
 	
     cout << "cache line: " << line << endl;
@@ -73,7 +76,6 @@ int main()
 	for(int i=0; i<4; i++){
 		for(int j=0; j<6; j++){
 			cout<<"\033[1;33m"<<pow(2, i)<<"-way "<<pow(2, j)<<"KB cache with "<<64<<" B blocks"<<"\n";
-			cout<<"\033[1;35mneed "<<pow(2, i) * 32 + 1<<"bits\n\033[0m";
 			simulate(pow(2, i), pow(2, j) * K, 64);
 		}
 	}
