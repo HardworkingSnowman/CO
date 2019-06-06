@@ -39,7 +39,7 @@ void simulate(int way, int cache_size, int block_size)
 		for(int k=0; k<way; k++)cache[j].tag[k] = -1;
 	}
 	
-    FILE *fp = fopen("LU.txt", "r");  // read file
+    FILE *fp = fopen("RADIX.txt", "r");  // read file
 	
 	while(fscanf(fp, "%x", &x) != EOF){
 		//cout << hex << x << " ";
