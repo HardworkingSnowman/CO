@@ -26,15 +26,17 @@ void simulate(int way, int cache_size, int block_size)
 	int tag, index, x;
 	double miss=0, count=0;
 	int offset_bit = (int)log2(block_size);
-	int index_bit = (int)log2(cache_size / block_size);
-	int line = cache_size >> (offset_bit);
+	int index_bit = (int)log2(cache_size / block_size / way);
+	int line = (cache_size >> (offset_bit));
 
 	int tagbit = 32 - (offset_bit + index_bit);
-	cout<<"\033[1;35mneed "<<line * (way * tagbit + 1)<<"bits\n\033[0m";
+	cout<<"\033[1;35mneed "<<line * (block_size * 8 + 32 - (int)log2(line) + (int)log2(way) - offset_bit + 1)<<"bits\n\033[0m";
+
+	line /= way;
 
 	cache_content *cache = new cache_content[line];
 	
-    cout << "cache line: " << line << endl;
+  cout << "cache line: " << line << endl;
 
 	for(int j = 0; j < line; j++){
 		cache[j].v = false;
@@ -42,7 +44,7 @@ void simulate(int way, int cache_size, int block_size)
 		for(int k=0; k<way; k++)cache[j].tag[k] = -1;
 	}
 	
-    FILE *fp = fopen("LU.txt", "r");  // read file
+    FILE *fp = fopen("RADIX.txt", "r");  // read file
 	
 	while(fscanf(fp, "%x", &x) != EOF){
 		//cout << hex << x << " ";
