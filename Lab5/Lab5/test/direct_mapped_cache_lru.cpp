@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <math.h>
 #include <algorithm>
+#include <fstream>
+#include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -72,13 +75,51 @@ void simulate(int way, int cache_size, int block_size)
 	delete [] cache;
 }
 	
-int main()
-{
+int main(int argc, char *argv[]){
 	// Let us simulate 4KB cache with 16B blocks
-	for(int i=0; i<4; i++){
+	/*for(int i=0; i<4; i++){
 		for(int j=0; j<6; j++){
 			cout<<"\033[1;33m"<<pow(2, i)<<"-way "<<pow(2, j)<<"KB cache with "<<64<<" B blocks"<<"\n";
 			simulate(pow(2, i), pow(2, j) * K, 64);
 		}
+	}*/
+	// 處理輸入
+	FILE *fin = fopen(argv[1], "r");
+	unsigned int A_base, B_base, C_base;
+	int m, n, p;
+	fscanf(fin, "%x%x%x", &A_base, &B_base, &C_base);
+	fscanf(fin, "%d%d%d", &m, &n, &p);
+	int A[m][n], B[n][p], C[m][p];
+	for(int i=0; i<m; i++){
+		for(int j=0; j<n; j++){
+			fscanf(fin, "%d", &A[i][j]);
+		}
+		for(int j=0; j<p; j++){
+			C[i][j]=0;
+		}
 	}
+	for(int i=0; i<n; i++){
+		for(int j=0; j<p; j++){
+			fscanf(fin, "%d", &B[i][j]);
+		}
+	}
+	// 矩陣相乘
+	for(int i=0; i<m; i++){
+		for(int j=0; j<n; j++){
+			for(int k=0; k<p; k++){
+				C[i][k] += A[i][j] * B[j][k];
+			}
+		}
+	}
+	// 將矩陣結果印到 c1 檔案中
+	ofstream out(argv[2]);
+	for(int i=0; i<m; i++){
+		ostringstream oss;
+		for(int j=0; j<p; j++){
+			oss << C[i][j] << " ";
+		}
+		oss << "\n";
+		out << oss.str();
+	}
+	out.close();
 }
