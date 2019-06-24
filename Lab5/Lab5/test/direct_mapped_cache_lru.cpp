@@ -83,7 +83,7 @@ int main(int argc, char *argv[]){
 			simulate(pow(2, i), pow(2, j) * K, 64);
 		}
 	}*/
-	// 處理輸入
+	// 處理輸入 argv[1] 檔案
 	FILE *fin = fopen(argv[1], "r");
 	unsigned int A_base, B_base, C_base;
 	int m, n, p;
@@ -111,7 +111,7 @@ int main(int argc, char *argv[]){
 			}
 		}
 	}
-	// 將矩陣結果印到 c1 檔案中
+	// 將矩陣結果印到 argv[2] 檔案中
 	ofstream out(argv[2]);
 	for(int i=0; i<m; i++){
 		ostringstream oss;
