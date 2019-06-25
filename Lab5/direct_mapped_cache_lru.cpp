@@ -77,8 +77,12 @@ int simulate(int way, int cache_size, int block_size, int type)
 	}
 }
 
+void aaa(ofstream &out){
+	out << "sss\n";
+}
+
 int execution_cycles() {
-    return 2 + (16 * m * p * n + 2 * m * p) + (11 * m * p + 2 * m) + (5 * m + 2) + 1;
+    return 2 + (22 * m * p * n + 2 * m * p) + (5 * m * p + 2 * m) + (5 * m + 2) + 1;
 }
 	
 int main(int argc, char *argv[]){
@@ -104,13 +108,13 @@ int main(int argc, char *argv[]){
 	// 矩陣相乘, 會需要用到的位址
 	for(int i=0; i<m; i++){
 		for(int j=0; j<p; j++){
-      addr.push_back(4 * (i * p + j) + C_base);
 			for(int k=0; k<n; k++){
+				addr.push_back(4 * (i * p + j) + C_base);
 				addr.push_back(4 * (i * n + k) + A_base);
 				addr.push_back(4 * (k * p + j) + B_base);
+				addr.push_back(4 * (i * p + j) + C_base);
 				C[i][j] += A[i][k] * B[k][j];
 			}
-      addr.push_back(4 * (i * p + j) + C_base);
 		}
 	}
 	// 將矩陣結果印到 argv[2] 檔案中

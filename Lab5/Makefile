@@ -5,8 +5,8 @@ OUT=$(wildcard ./*.o)
 OBJ=$(patsubst ./%.cpp, ./%.o, $(SRC))
 
 all:
-	$(CC) direct_mapped_cache.cpp -o direct_mapped_cache.o
-	$(CC) direct_mapped_cache_lru.cpp -o direct_mapped_cache_lru.o
+	$(CC) direct_mapped_cache_lru.cpp -o ./simulate_caches
+	$(CC) bonus.cpp -o ./bonus
 
 .PHONY:
 	clean

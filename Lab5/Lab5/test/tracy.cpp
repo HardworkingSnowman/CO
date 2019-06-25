@@ -10,16 +10,16 @@ using namespace std;
 unsigned long long addrA, addrB, addrC;
 int m, n, p;
 
-vector<vector<int> > mA;
-vector<vector<int> > mB;
-vector<vector<int> > mC;
+vector<vector<unsigned int> > mA;
+vector<vector<unsigned int> > mB;
+vector<vector<unsigned int> > mC;
 
 int A(int i, int j) {return addrA + i * n * 4 + j * 4;}
 int B(int i, int j) {return addrB + i * p * 4 + j * 4;}
 int C(int i, int j) {return addrC + i * p * 4 + j * 4;}
-vector<int> address;
-vector<int> L1_miss_address;
-vector<int> L2_miss_address;
+vector<unsigned int> address;
+vector<unsigned int> L1_miss_address;
+vector<unsigned int> L2_miss_address;
 
 int execution_cycles() {
     return 2 + (22 * m * p * n + 2 * m * p) + (5 * m * p + 2 * m) + (5 * m + 2) + 1;
@@ -48,7 +48,7 @@ double log2(double n) {
 
 
 int simulate(int cache_size, int block_size, int way_n,
-        vector<int> & addr, vector<int> & miss_addr) {
+        vector<unsigned int> & addr, vector<unsigned int> & miss_addr) {
     unsigned int tag, index, x;
     int cnt_miss = 0, cnt_hit = 0;
 
@@ -135,7 +135,7 @@ int main(int argc, char** argv) {
     // matrix B values
     for (int i = 0; i < n; i ++) {
         for (int j = 0; j < p; j ++) {
-            int tmp;
+            unsigned int tmp;
             fin >> dec >> tmp;
             mB[i].push_back(tmp);
         }
@@ -177,7 +177,6 @@ int main(int argc, char** argv) {
     fout << cnt_miss * 836 + cnt_hit * 4 << ' ';
     // 1(b)
     fout << cnt_miss * 108 + cnt_hit * 4 << ' ';
-    fout << cnt_miss << " "<<cnt_hit;
 
     int cnt_L1_miss, cnt_L2_miss;
     cache_sz = 128;
