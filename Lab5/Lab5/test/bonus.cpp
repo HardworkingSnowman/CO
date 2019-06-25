@@ -112,9 +112,9 @@ int main(int argc, char *argv[]){
 			for(int k=0; k<n; k++){
 				addr.push_back(4 * (i * n + k) + A_base);
 				addr.push_back(4 * (k * p + j) + B_base);
-				addr.push_back(4 * (i * p + j) + C_base);
 				C[i][j] += A[i][k] * B[k][j];
 			}
+      addr.push_back(4 * (i * p + j) + C_base);
 		}
 	}
 	// 將矩陣結果印到 argv[2] 檔案中
