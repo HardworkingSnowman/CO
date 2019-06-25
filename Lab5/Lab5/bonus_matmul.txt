@@ -38,13 +38,14 @@ loop_k:
 //	temp3 = 4(k*p+j) + B[]base
   lw $18, 0($17)
   mul $19, $18, $14
-  addu $20, $10, $19
+  addu $10, $10, $19
   sw $20, 0($9)
 //	C[i][j] = C[i][j] + A[i][k]*B[k][j]
 //end work
   addi $5, $5, 1
   j loop_k
 end_k:
+  sw $10, 0($9)
   addi $4, $4, 1
   j loop_j
 end_j:
