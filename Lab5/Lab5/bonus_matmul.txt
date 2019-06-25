@@ -39,7 +39,6 @@ loop_k:
   lw $18, 0($17)
   mul $19, $18, $14
   addu $10, $10, $19
-  sw $20, 0($9)
 //	C[i][j] = C[i][j] + A[i][k]*B[k][j]
 //end work
   addi $5, $5, 1
