@@ -14,7 +14,7 @@ loop_j:
   slt $6, $4, $22
   beq $6, $0, end_j
   addi $5, $0, 0
-//main work, C[i][j] = C[i][j] + A[i][k]*B[k][j]
+//
   mul $7, $3, $23
   addu $8, $7, $4
   mul $8, $8, $1
@@ -24,7 +24,7 @@ loop_j:
 loop_k:
   slt $6, $5, $23
   beq $6, $0, end_k
-//
+//main work, C[i][j] = C[i][j] + A[i][k]*B[k][j]
   mul $11, $3, $22
   addu $12, $11, $5
   mul $12, $12, $1
